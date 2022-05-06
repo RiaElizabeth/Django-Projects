@@ -1,0 +1,71 @@
+{% extends "network/layout.html" %}
+{% block body %}
+    <style>
+        img {
+            margin-bottom:20px;
+            border-radius:50%;
+            border: 3px solid black;
+        }
+    </style>
+    <script>
+        var username = "{{username}}"
+        document.addEventListener('DOMContentLoaded',function() {
+            document.querySelector('#profile').addEventListener('click',() => follow_unfollow(username));
+        });
+        function change(id) {
+            fetch('/change/'+id, {
+                method:"POST",
+                body:""
+            })
+            .then(response => response.json())
+            .then(text => {
+                console.log(text)
+                document.querySelector(".change-"+id).innerText = text["text"]
+                document.querySelector("#count-"+id).innerText = text["count"]
+            })
+            console.log(id)
+        }
+        function follow_unfollow(username) {
+            fetch('/profile/'+username, {
+                method:'POST',
+                body:""
+            })
+            .then(response => response.json())
+            .then(post => {
+                console.log(post);
+                document.querySelector('#profile').innerText = post["text"];
+                document.querySelector('#follower').innerText = post["follower"];
+                document.querySelector('#following').innerText = post["following"];
+            })
+        }
+    </script>
+    <img src="https://www.tnwac.org/wp-content/uploads/2021/06/421-4212617_person-placeholder-image-transparent-hd-png-download.png" width="200" height="200">
+    <br>
+    <h3>{{username}}</h3><br>
+    <h5>Followers: <span id="follower">{{profile.follower.count}}</span>&nbsp;&nbsp;&nbsp; Following: <span id="following">{{profile.following.count}}</span></h5>
+    {% if display %}
+            <br>
+            <button id="profile" class="btn btn-primary pl-5 pr-5">{{text}}</button>
+            <br>
+    {% else %}
+    {% endif %}
+    <br>
+    {% for p in user_posts %}
+        <div class="row">
+        <div class="col border border-dark mb-2 p-2">
+            <h5><a href="{% url 'profile' p.user.username %}">{{p.user.username}}</a></h5>
+            {% if p.user.id == request.user.id %}
+                <a href="{% url 'editpost' p.id %}">Edit</a>
+                <br><br>
+            {% endif %}
+            <p>{{p.content}}</p>
+            <p>{{p.date}}</p>
+            {% if p.id in l %}
+                    <i class="fa fa-heart" style="color:red"></i>&nbsp;<span id="count-{{p.id}}">{{p.liked.count}}</span>&nbsp;<a id="change" data-post="{{p.id}}" onclick="change({{p.id}})">Unlike</a>
+                {% else %}
+                    <i class="fa fa-heart" style="color:red"></i>&nbsp;<span id="count-{{p.id}}">{{p.liked.count}}</span>&nbsp;<a class="change-{{p.id}}" id="change" data-post="{{p.id}}" onclick="change({{p.id}})">Like</a>
+            {% endif %}
+        </div>
+        </div>
+    {% endfor %}
+{% endblock body %} 
