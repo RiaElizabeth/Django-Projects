@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div style="margin-left: 20px; margin-right:20px; border: 2px solid black; padding: 10px;">
+    <h2>Listing: {{item.title}}</h2>
+    {% if user.is_authenticated %}
+    <form action = "{% url 'watchlist' item.title %}">
+        {% if w %}
+            <input type="submit" class="btn btn-secondary btn-sm" value="Remove from watchlist">
+        {% else %}
+            <input type="submit" class="btn btn-secondary btn-sm" value="Watchlist">
+        {% endif %}
+    </form>
+    {% endif %}
+    <img src="{{item.image}}" style="width:30%; height:40%; display:block; margin-left:auto; margin-right:auto;"/><br>
+    <p><b>Description: </b>{{item.description}}</p>
+    <h4>&#8377;{{price}}</h4>
+    {% if item.active %}
+    <p>{{bids}} bid(s) so far. Yours is the current bid.
+    <form action="{% url 'item' item.title %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="number" name="bid" placeholder="Bid" required>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Place bid">
+    </form> <br>
+    <p>{{message}}  
+    {% if close %}
+    <div style="text-align: center;">
+        <form action = "{% url 'close' item.title %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Close the bid" style="width: 40%; margin-bottom: 40px;">
+        </form>
+    </div>
+    {% endif %}
+    {% else %}
+        <br>
+        {% if won %}
+            <h2>Congratulations! You won the auction!</h2>
+        {% else %}
+            <h2>The item is sold off!</h2>
+        {% endif %}
+    {% endif %}
+    <br><br>
+    <h4>Comments</h4>
+    <form action="{% url 'comment' item.title %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="comment" placeholder="Comment">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Add Comment">
+    </form>
+    <br>
+    {% if comments %}
+        {% for comment in comments %}
+            <p><b>{{comment.user.username}}: </b>{{comment.new_comment}}</p>
+        {% endfor %}    
+    {% else %}<br>
+        <p>No comments added.
+    {% endif %}
+</div>
+{% endblock body %}
