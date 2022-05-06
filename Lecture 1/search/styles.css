@@ -1,0 +1,67 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 600px) {
+    .links {
+        text-align: right;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+}
+
+.links {
+    text-align: right;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+.links > a {
+    color: black;
+}
+
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5%;
+}
+
+.search {
+    display: block;
+    text-align: center;
+}
+
+form > input {
+    padding: 7px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.bar {
+    margin: 40px;
+    width: 45%;
+    border: 1px #ede9e8 solid;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+input:hover {
+    outline: 2px solid #ede9e8; 
+    box-shadow: 2px;
+}
+
+input:focus {
+    outline: 2px solid #ede9e8; 
+    box-shadow: 2px;
+}
+
+.sub {
+    background-color: #f7f7f7;
+    border: 0;
+    padding: 12px;
+    margin: 5px;
+    margin-top: 0px;
+    font-size: 14px;
+}
+
+

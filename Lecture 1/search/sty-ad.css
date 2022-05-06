@@ -1,0 +1,93 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 600px) {
+    .links {
+        text-align: right;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+}
+
+.links {
+    text-align: right;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+.links > a {
+    color: black;
+}
+
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 5%;
+}
+
+
+.logo {
+    width: 6%;
+    height: 6%;
+    margin: 0px 0px 0px 10px;
+}
+
+.heading-1 {
+    color: #c21104;
+    margin: 40px 0px 0px 40px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+hr {
+    background-color: gainsboro;
+    color: gainsboro;
+    height: 1px;
+    border: none;
+    margin: 35px 0px 35px 0px;
+}
+
+.content {
+    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+form  { 
+    display: table;      
+}
+
+p     { 
+    display: table-row;  
+}
+
+label { 
+    display: table-cell; 
+}
+
+input { 
+    display: table-cell; 
+    width: 150%;
+    border: 1px #c7bfbf solid;
+    box-shadow: 2px;
+    padding: 5px;
+    margin-left: 120px;
+}
+
+.form-body {
+    font-size: 13px; 
+    margin: 15px;
+}
+
+input:focus {
+    outline: 1px solid #253cb0;
+    box-shadow: 2px;
+}
+
+input[type="submit"] {
+    color: white;
+    background-color: #087cc9;
+    width: 40%;
+    padding: 7px;
+} 
