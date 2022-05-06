@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist ({{count}})</h2>
+    {% for listing in listings %}
+        <div class="listing">
+            <div class = "right">
+                <h5><a href="{% url 'item' listing.item.title %}">{{listing.item.title}}</a></h5><br>
+                <p><b>Price: </b>&#8377;{{listing.item.starting}}</p>
+                <p>{{listing.item.description}}</p>
+                <p style="color:grey; font-size:12px"><i>Created on: {{listing.item.created_date}}</i></p>
+            </div>
+            <div class="left">
+                <img src="{{listing.item.image}}"/>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
