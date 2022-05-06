@@ -1,0 +1,34 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <script>
+        var id = "{{post.id}}"
+        document.addEventListener('DOMContentLoaded',function() {
+            document.querySelector("#save").addEventListener('click',() => save(id))
+        });
+
+        function save(id) {
+            content = document.querySelector("#content").value;
+            fetch('/editpost/'+id,{
+                method:"PUT",
+                body: JSON.stringify({
+                    "content": content
+                })
+            })
+            .then(response => response.json())
+            .then(post => {
+                document.querySelector("#content").value = post["content"]
+            })
+        }
+    </script>
+    <h2>Edit post</h2>
+    <br>
+    <form action="{% url 'editpost' post.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <textarea class="form-control" id="content" rows="5" name="content">{{post.content}}</textarea><br>
+            <button id="save" type="button" class="btn btn-primary pl-5 pr-5">Save</button>
+            <input id="edit" type="submit" class="btn btn-primary pl-5 pr-5" value="Submit">
+        </div>
+    </form>
+{% endblock body %}

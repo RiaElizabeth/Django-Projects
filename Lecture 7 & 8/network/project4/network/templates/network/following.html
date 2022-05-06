@@ -1,0 +1,56 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<script>
+        document.addEventListener('DOMContentLoaded',function() {
+            
+        });
+        function change(id) {
+            fetch('/change/'+id, {
+                method:"POST",
+                body:""
+            })
+            .then(response => response.json())
+            .then(text => {
+                console.log(text)
+                document.querySelector(".change-"+id).innerText = text["text"]
+                document.querySelector("#count-"+id).innerText = text["count"]
+            })
+            console.log(id)
+        }
+</script>
+    {% for p in all_posts %}
+        <div class="row">
+        <div class="col border border-dark mb-2 p-2">
+            <h5><a href="{% url 'profile' p.user.username %}">{{p.user.username}}</a></h5>
+            {% if p.user.id == request.user.id %}
+                <a href="{% url 'editpost' p.id %}">Edit</a>
+                <br><br>
+            {% endif %}
+            <p>{{p.content}}</p>
+            <p>{{p.date}}</p>
+            {% if p.id in l %}
+                    <i class="fa fa-heart" style="color:red"></i>&nbsp;<span id="count-{{p.id}}">{{p.liked.count}}</span>&nbsp;<a id="change" data-post="{{p.id}}" onclick="change({{p.id}})">Unlike</a>
+                {% else %}
+                    <i class="fa fa-heart" style="color:red"></i>&nbsp;<span id="count-{{p.id}}">{{p.liked.count}}</span>&nbsp;<a class="change-{{p.id}}" id="change" data-post="{{p.id}}" onclick="change({{p.id}})">Like</a>
+                {% endif %}
+        </div>
+        </div>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if all_posts.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ all_posts.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ all_posts.number }} of {{ all_posts.paginator.num_pages }}
+            </span>
+
+            {% if all_posts.has_next %}
+                <a href="?page={{ all_posts.next_page_number }}">Next</a>
+                <a href="?page={{ all_posts.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
