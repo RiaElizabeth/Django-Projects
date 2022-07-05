@@ -1,0 +1,44 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+    <h1>Create new team</h1>
+    {% if present == 1 %}
+        <script>
+            alert("The title already exists.");
+        </script>
+    {% endif %}
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name of the team</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Team's name" name="title" required>
+        </div>
+        <div>
+        <br>
+            <div class="form-group">
+                <label>Select members</label><br>
+                <select multiple="multiple" class="multiple-select" name="members" required>
+                    {% for user in users  %}
+                    {% if user.username == request.user.username %}
+                    
+                    {% else %}
+                        <option value="{{user.username}}">{{user.username}}</option><br>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form> 
+    <script>
+        $(function() {
+            $('.multiple-select').multipleSelect()
+        })
+    </script>
+
+{% endblock body %}

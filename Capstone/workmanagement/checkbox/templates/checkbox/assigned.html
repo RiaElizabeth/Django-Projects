@@ -1,0 +1,42 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    {% if message == 2 %}
+        <script>
+            alert("Workflow created successfully!");
+        </script>
+    {% endif %}
+    <h1>Workflows</h1>
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th scope="col">WF Id.</th>
+            <th scope="col">WF name</th>
+            <th scope="col">WF team</th>
+            <th scope="col">WF task</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for wf in workflows %}
+            <tr>
+                <th scope="row">XYZ0{{wf.id}}</th>
+                <td>{{wf.title}}</td>
+                <td>
+                    <ul>
+                        {% for wfteam in wf.team.all %}
+                        <li>{{wfteam.title}}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for wftask in wf.task.all %}
+                        <li>{{wftask.title}}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %} 

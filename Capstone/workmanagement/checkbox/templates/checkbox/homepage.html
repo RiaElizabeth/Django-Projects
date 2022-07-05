@@ -1,0 +1,98 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    <h1>Home</h1>
+    {% if message == 1 %}
+        <script>
+            alert("Data saved succesfully!")
+        </script>
+    {% endif %}
+    <br>
+    <h6>Tasks assigned by me</h6>
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Task Id.</th>
+            <th scope="col">Task name</th>
+            <th scope="col">Assigned to</th>
+            <th scope="col">Due</th>
+            <th scope="col">Task description</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in assigned_by %}
+            <tr>
+                <th scope="row">XYZ0{{task.id}}</th>
+                {% if task.completed == False %}
+                    <td>{{task.title}}</td>
+                {% else %}
+                    <td><s>{{task.title}}</s></td>
+                {% endif %}
+                <td>
+                    {% for tuser in task.assigned.all %}
+                        {{tuser}}
+                    {% endfor %}
+                </td>
+                <td>{{task.due}}</td>
+                <td>{{task.description}}</td>
+                {% if task.completed == True %}
+                    <td><button type="button" class="btn btn-danger" onclick="update_status({{task.id}})">Mark as incomplete</button></td>
+                {% else %}
+                    <td><button type="button" class="btn btn-info" onclick="update_status({{task.id}})">Mark as done</button></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <h6>Tasks assigned to me</h6>
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Task Id.</th>
+            <th scope="col">Task name</th>
+            <th scope="col">Assigned by</th>
+            <th scope="col">Due</th>
+            <th scope="col">Task description</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in assigned_to %}
+            <tr>
+                <th scope="row">XYZ0{{task.id}}</th>
+                {% if task.completed == False %}
+                    <td>{{task.title}}</td>
+                {% else %}
+                    <td><s>{{task.title}}</s></td>
+                {% endif %}
+                <td>
+                    {% for tuser in task.assignee.all %}
+                        {{tuser}}
+                    {% endfor %}
+                </td>
+                <td>{{task.due}}</td>
+                <td>{{task.description}}</td>
+                {% if task.completed == True %}
+                    <td><button type="button" class="btn btn-danger" onclick="update_status({{task.id}})">Mark as incomplete</button></td>
+                {% else %}
+                    <td><button type="button" class="btn btn-info" onclick="update_status({{task.id}})">Mark as done</button></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        function update_status(id) {
+            fetch(`/update/`+id)
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+               location.reload();
+            })
+        }
+    </script>
+{% endblock body %} 

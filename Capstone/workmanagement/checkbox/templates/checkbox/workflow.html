@@ -1,0 +1,45 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+    <h1>Create new workflow</h1>
+    <form action="{% url 'workflow' %}" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name of the workflow</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Workflow's name" name="workflow" required>
+        </div>
+        <div>
+        <br>
+            <div class="form-group">
+                <label>Select team</label><br>
+                <select multiple="multiple" class="multiple-select" name="teams" required>
+                    {% for team in teams %}
+                        <option value="{{team.id}}">{{team.title}}</option><br>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div>
+        <br>
+            <div class="form-group">
+                <label>Select task</label><br>
+                <select multiple="multiple" class="multiple-select" name="tasks" required>
+                    {% for task in tasks %}
+                        <option value="{{task.id}}">{{task.title}}</option><br>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form> 
+    <script>
+        $(function() {
+            $('.multiple-select').multipleSelect()
+        })
+    </script>
+{% endblock body %} 

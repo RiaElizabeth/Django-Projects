@@ -1,0 +1,23 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    <h1>Users</h1>
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Unique Id.</th>
+            <th scope="col">Username</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for userdata in users %}
+        {% if userdata.id != user.id %}
+            <tr>
+                <th scope="row">XYZ0{{userdata.id}}</th>
+                <td>{{userdata.username}}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+        {% endfor %}
+    </table>
+{% endblock body %} 

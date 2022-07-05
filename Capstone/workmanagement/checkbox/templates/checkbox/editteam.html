@@ -1,0 +1,39 @@
+{% extends "checkbox/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+    <h1>Edit team</h1>
+    <form action="{% url 'editteam' id %}" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name of the team</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Team's name" name="title" value="{{title}}">
+        </div>
+        <div>
+        <br>
+            <div class="form-group">
+                <label>Select members</label><br>
+                <select multiple="multiple" class="multiple-select" name="members" required>
+                    {% for user in users  %}
+                        <option value="{{user.username}}" selected>{{user.username}}</option><br>
+                    {% endfor %}
+                    {% for user in user_remaining  %}
+                        <option value="{{user.username}}">{{user.username}}</option><br>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit_data">Submit</button>
+    </form> 
+    <script>
+        $(function() {
+            $('.multiple-select').multipleSelect()
+        })
+    </script>
+{% endblock body %}

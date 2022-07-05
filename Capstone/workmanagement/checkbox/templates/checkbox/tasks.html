@@ -1,0 +1,45 @@
+{% extends "checkbox/layout.html" %}
+{% block body %}
+    <style>
+        select {
+            width: 100%;
+        }
+    </style>
+    <h1>Create new task</h1>
+    <form action="{% url 'tasks' %}" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name of the task</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Task's name" name="title" required>
+        </div>
+        <div>
+            <br>
+            <div class="form-group">
+                <label>Assigned to</label><br>
+                <select multiple="multiple" class="multiple-select" name="members" required>
+                    {% for user in users  %}
+                        <option value="{{user.username}}">{{user.username}}</option><br>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Due date</label>
+            <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="yyyy-mm-dd" name="date" min="2022-07-03" required>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form> 
+    <script>
+        $(function() {
+            $('.multiple-select').multipleSelect()
+        })
+    </script>
+{% endblock body %} 
